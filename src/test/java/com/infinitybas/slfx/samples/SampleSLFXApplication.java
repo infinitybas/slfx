@@ -24,12 +24,10 @@ public class SampleSLFXApplication extends Application {
 
 		// Intent from FXML string
 		// Add model parameters if here if you wish!
-		slfx.show(new Intent("fxml/page1.fxml")
-				.withExtra("message", "This is the first page") 	
-				.withExtra("btnText", "Press me!"));
-		
-		primaryStage.show();
+		slfx.show(new Intent("fxml/page1.fxml").withExtra("message", "This is the first page").withExtra("btnText",
+				"Press me!"));
 
+		primaryStage.show();
 	}
 
 }
