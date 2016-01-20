@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="240.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.infinitybas.slfx.samples.Page2Controller">
+	<children>
+		<BorderPane prefHeight="240.0" prefWidth="320.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+			<center>
+				<TabPane fx:id="tabPane" prefHeight="240.0" prefWidth="320.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+				</TabPane>
+			</center>
+			<bottom>
+				<Button mnemonicParsing="false" onAction="#toPage1" text="Go to Page 1" BorderPane.alignment="CENTER" />
+			</bottom>
+			<top>
+				<Text fx:id="text" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" BorderPane.alignment="CENTER" />
+			</top>
+		</BorderPane>
+	</children>
+</AnchorPane>
