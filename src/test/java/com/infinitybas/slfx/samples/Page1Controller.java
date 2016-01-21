@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.infinitybas.slfx.FXControllerFor;
+import com.infinitybas.slfx.SLFXControllerFor;
 import com.infinitybas.slfx.Intent;
 import com.infinitybas.slfx.SLFX;
 import com.infinitybas.slfx.SLFXController;
@@ -15,7 +15,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 
-@FXControllerFor("fxml/page1.fxml")
+@SLFXControllerFor("fxml/page1.fxml")
 public class Page1Controller extends SLFXController {
 
 	@FXML

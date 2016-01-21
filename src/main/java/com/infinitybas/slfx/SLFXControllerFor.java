@@ -18,6 +18,6 @@ import org.springframework.stereotype.Controller;
 @Controller
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface FXControllerFor {
+public @interface SLFXControllerFor {
 	public String value() default "";
 }

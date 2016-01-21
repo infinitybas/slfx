@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.infinitybas.slfx.FXControllerFor;
+import com.infinitybas.slfx.SLFXControllerFor;
 import com.infinitybas.slfx.Intent;
 import com.infinitybas.slfx.SLFX;
 import com.infinitybas.slfx.SLFXController;
@@ -16,7 +16,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.text.Text;
 
-@FXControllerFor("fxml/page2.fxml")
+@SLFXControllerFor("fxml/page2.fxml")
 public class Page2Controller extends SLFXController {
 	
 	private static final Logger log = org.slf4j.LoggerFactory.getLogger(Page2Controller.class);

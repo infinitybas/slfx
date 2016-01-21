@@ -52,7 +52,7 @@ public class SLFXImpl implements SLFX {
 	}
 
 	private String getFxmlResource(Class<?> controller) {
-		FXControllerFor[] annotations = controller.getDeclaredAnnotationsByType(FXControllerFor.class);
+		SLFXControllerFor[] annotations = controller.getDeclaredAnnotationsByType(SLFXControllerFor.class);
 
 		if (annotations.length == 0) {
 			throw new IllegalArgumentException("Attempted to retrieve FXML for an un-annotated controller. "
