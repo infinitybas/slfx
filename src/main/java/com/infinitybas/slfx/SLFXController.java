@@ -28,6 +28,10 @@ public abstract class SLFXController implements IntentAware {
 		return root.getScene();
 	}
 	
+	protected Parent getRoot() {
+		return root;
+	}
+	
 	public void setRoot(Parent root) {
 		this.root = root;
 	}
