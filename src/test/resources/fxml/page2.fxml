@@ -10,11 +10,18 @@
 	<children>
 		<BorderPane prefHeight="240.0" prefWidth="320.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<center>
-				<TabPane fx:id="tabPane" prefHeight="240.0" prefWidth="320.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+				<TabPane fx:id="tabPane" prefHeight="240.0" prefWidth="320.0" tabClosingPolicy="ALL_TABS" BorderPane.alignment="CENTER">
 				</TabPane>
 			</center>
 			<bottom>
-				<Button mnemonicParsing="false" onAction="#toPage1" text="Go to Page 1" BorderPane.alignment="CENTER" />
+				<ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+					<items>
+						<Button fx:id="backBtn" mnemonicParsing="false" onAction="#back" text="Back" />
+						<Pane HBox.hgrow="ALWAYS" />
+						<Button fx:id="forwardBtn" alignment="TOP_LEFT" contentDisplay="TOP" mnemonicParsing="false" onAction="#forward" text="Forward" />
+					</items>
+				</ToolBar>
+				
 			</bottom>
 			<top>
 				<Text fx:id="text" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" BorderPane.alignment="CENTER" />
