@@ -1,6 +1,6 @@
-# slfx - Spring Loaded (Java)FX
+# slfx - Spring Loaded JavaFX
 
-Spring Loaded FX (slfx) is a lightweight library for integrating Spring with JavaFX. It strives to allow quick development of simple multi-view applications, inspired by the `Intent` pattern familiar to Android developers. It is designed with single-`Stage` applications in mind. If you wish to manage additional `Stage`s (e.g. modals), you are responsible for their lifecycles.
+Spring Loaded JavaFX (slfx) is a lightweight library for integrating Spring with JavaFX. It strives to allow quick development of simple multi-view applications, inspired by the `Intent` pattern familiar to Android developers. It is designed with single-`Stage` applications in mind. If you wish to manage additional `Stage`s (e.g. modals), you are responsible for their lifecycles.
 
 #### Features
 * Spring managed controllers - use `@Autowired` to inject services into your controllers
