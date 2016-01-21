@@ -4,13 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import javafx.scene.Parent;
-
 public class Intent {
 	
 	private Optional<Class<?>> controller = Optional.empty();
 	private Optional<String> fxml = Optional.empty();
-	private Optional<Parent> root = Optional.empty();
 	
 	private Map<Class<?>, HashMap<String, Object>> extrasByClass;
 	
@@ -26,11 +23,6 @@ public class Intent {
 	public Intent(String fxml) {
 		this();
 		this.setFxml(fxml);
-	}
-	
-	public Intent(Parent root) {
-		this();
-		this.setRoot(root);
 	}
 
 	public Optional<Class<?>> getController() {
@@ -60,13 +52,13 @@ public class Intent {
 			return Optional.empty();
 		}
 	}
+	
+	public boolean isComplete() {
+		return getController().isPresent() && getFxml().isPresent();
+	}
 
 	public void setFxml(String fxml) {
 		this.fxml = Optional.of(fxml);
-	}
-
-	public void setRoot(Parent root) {
-		this.root = Optional.of(root);
 	}
 
 	public void setController(Class<?> controller) {
@@ -76,9 +68,25 @@ public class Intent {
 	public Optional<String> getFxml() {
 		return fxml;
 	}
-
-	public Optional<Parent> getRoot() {
-		return root;
+	
+	@Override
+	public String toString() {
+		
+		StringBuilder builder = new StringBuilder();
+		for(Map.Entry<Class<?>, HashMap<String,Object>> entry : extrasByClass.entrySet()) {
+			builder.append(String.format("\t%s:\n", entry.getKey().toString()));
+			for(Map.Entry<String, Object> inner : entry.getValue().entrySet()) {
+				builder.append(String.format("\t\t%s: %s\n", inner.getKey(), inner.getValue().toString()));
+			}
+		}
+		
+		String target = getFxml().isPresent() ? getFxml().get() : getController().get().getName();
+		
+		return String.format("%s for %s\nExtras:\n%s", 
+				super.toString(),
+				target,
+				builder.toString()
+				);
 	}
 
 }

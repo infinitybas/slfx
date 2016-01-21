@@ -1,6 +1,7 @@
 package com.infinitybas.slfx;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import javafx.stage.Stage;
 
 @Service
 public class SLFXImpl implements SLFX {
-	
+
 	private static final Logger log = org.slf4j.LoggerFactory.getLogger(SLFX.class);
 
 	public static Stage primaryStage;
@@ -20,61 +21,37 @@ public class SLFXImpl implements SLFX {
 	@Autowired
 	private FXMLLoaderService loader;
 
+	private HashMap<String, Scene> sceneCache = new HashMap<>();
+
 	public void show(Intent intent) {
-		
+
 		try {
-			Parent root = null;
-			
-			if(intent.getRoot().isPresent())
-				root = intent.getRoot().get();
-			else if(intent.getFxml().isPresent()) {
-				root = loadFXML(intent.getFxml().get(), intent);
-			} else if (intent.getController().isPresent()) {
-				Class<?> controllerClass = intent.getController().get();
-				root = FXMLFor(controllerClass, intent);
+
+			String resource = "";
+			if (intent.getFxml().isPresent()) {
+				resource = intent.getFxml().get();
 			} else {
-				log.warn("Intent did not have root, fxml or controller. Doing nothing.");
-				return;
+				resource = getFxmlResource(intent.getController().get());
 			}
-			
-			primaryStage.setScene(new Scene(root));
-			
+
+			if (!sceneCache.containsKey(resource)) {
+				Parent root = (Parent) loader.load(resource);
+				sceneCache.put(resource, new Scene(root));
+			} else {
+				if(log.isDebugEnabled())
+					log.debug("{} found in Scene cache, retrieving...", resource);
+			}
+				
+			loader.registerIntent(resource, intent);
+
+			primaryStage.setScene(sceneCache.get(resource));
+
 		} catch (IOException e) {
 			log.error("Exception occurred trying to execute intent", e);
 		}
 	}
 
-	public void setPrimaryStage(Stage stage) {
-		SLFXImpl.primaryStage = stage;
-	}
-
-	/**
-	 * Attempts to load the view from the specified resource string, and cast it
-	 * to a scene graph parent.
-	 * 
-	 * @param fxml
-	 *            Resource identifier string
-	 * @return A javafx scene graph object
-	 * @throws IOException
-	 *             if the resource cannot be loaded
-	 */
-	private Parent loadFXML(String fxml, Intent intent) throws IOException {
-		return (Parent) loader.load(fxml, intent);
-	}
-
-	/**
-	 * Attempts to retrieve the linked FXML resource for the specified
-	 * controller class.
-	 * 
-	 * @param controller
-	 *            The controller class.
-	 * @return A javafx scene graph object
-	 * @throws IOException
-	 *             if the resource cannot be loaded
-	 * @throws IllegalArgumentException
-	 *             if the specified controller has no annotation.
-	 */
-	private Parent FXMLFor(Class<?> controller, Intent intent) throws IOException {
+	private String getFxmlResource(Class<?> controller) {
 		FXControllerFor[] annotations = controller.getDeclaredAnnotationsByType(FXControllerFor.class);
 
 		if (annotations.length == 0) {
@@ -84,6 +61,11 @@ public class SLFXImpl implements SLFX {
 
 		String fxml = annotations[0].value();
 
-		return loadFXML(fxml, intent);
+		return fxml;
 	}
+
+	public void setPrimaryStage(Stage stage) {
+		SLFXImpl.primaryStage = stage;
+	}
+
 }

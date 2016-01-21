@@ -3,6 +3,8 @@ package com.infinitybas.slfx;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +14,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 
 /**
  * This service uses the stock {@link FXMLLoader} to load FXML resources from
@@ -30,6 +31,8 @@ public class ContextAwareFXMLLoaderService implements FXMLLoaderService {
 	@Autowired
 	private ApplicationContext context;
 
+	private Map<String, IntentAware> controllerCache = new HashMap<>();
+
 	/**
 	 * Loads the root FXML file and uses Spring's context to get controllers.
 	 *
@@ -40,8 +43,8 @@ public class ContextAwareFXMLLoaderService implements FXMLLoaderService {
 	 * @throws IOException
 	 *             in case of problems with FXML file
 	 */
-	public Object load(final String resource, final Intent intent) throws IOException {
-		return load(resource, intent, getClass().getClassLoader());
+	public Object load(final String resource) throws IOException {
+		return load(resource, getClass().getClassLoader());
 	}
 
 	/**
@@ -56,7 +59,8 @@ public class ContextAwareFXMLLoaderService implements FXMLLoaderService {
 	 * @throws IOException
 	 *             in case of problems with FXML file
 	 */
-	public Object load(final String resource, final Intent intent, final ClassLoader classLoader) throws IOException {
+	public Object load(final String resource, final ClassLoader classLoader) throws IOException {
+
 		log.debug("Loading {} from {}", resource, classLoader.toString());
 		URL location = classLoader.getResource(resource);
 		log.debug("{}", location);
@@ -73,19 +77,36 @@ public class ContextAwareFXMLLoaderService implements FXMLLoaderService {
 			// Load FXML into Parent object
 			Object root = loader.load(fxmlStream);
 			Object controller = loader.getController();
-			
-			// If this is one of our managed controllers, inject root.
-			// Required to enable 'getScene()' and 'getParent()' methods
-			// on controllers. Inject intent for extras.
-			if(controller instanceof SLFXController) {
-				SLFXController slfx = (SLFXController)controller;
-				slfx.setRoot((Parent)root);
-				slfx.setIntent(intent);
+
+			if (controller instanceof IntentAware) {
+				controllerCache.put(resource, loader.getController());
+			} else {
+				log.warn("Controller {} was not an instance of {}", controller.getClass(), IntentAware.class);
 			}
 
 			return root;
 		} catch (BeansException e) {
 			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * Attempts to register the given intent against the controller for the
+	 * specified resource. Assumes the controller implements
+	 * {@link com.infinitybas.slfx.IntentAware}
+	 * 
+	 * @param resource
+	 *            location of FXML file
+	 * @param intent
+	 *            the intent to register with the linked controller
+	 */
+	public boolean registerIntent(final String resource, final Intent intent) {
+		if (controllerCache.containsKey(resource)) {
+			controllerCache.get(resource).setIntent(intent);
+			return true;
+		} else {
+			log.warn("Loaded {}, but no controller found. Could not inject intent", resource);
+			return false;
 		}
 	}
 

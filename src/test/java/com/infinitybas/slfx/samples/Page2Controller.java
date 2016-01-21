@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.infinitybas.slfx.FXControllerFor;
@@ -17,6 +18,8 @@ import javafx.scene.text.Text;
 
 @FXControllerFor("fxml/page2.fxml")
 public class Page2Controller extends SLFXController {
+	
+	private static final Logger log = org.slf4j.LoggerFactory.getLogger(Page2Controller.class);
 
 	@FXML TabPane tabPane;
 	@FXML Text text;
@@ -25,6 +28,8 @@ public class Page2Controller extends SLFXController {
 
 	@Override
 	public void onShow(Intent intent) {
+		
+		log.info("{}", intent.getExtra(ArrayList.class, "tabs").get());
 
 		Optional<List<String>> tab1name = intent.getExtra(ArrayList.class, "tabs");
 
@@ -43,9 +48,9 @@ public class Page2Controller extends SLFXController {
 	}
 
 	@FXML public void toPage1() {
-		// TODO: Model values we left last time should still be there.
-		// Need to implement some sort of caching in SLFXImpl
-		slfx.show(new Intent(Page1Controller.class));
+		// Model values we left last time should still be there.
+		slfx.show(new Intent("fxml/page1.fxml")
+				.withExtra("message", "Goodbye world"));
 	}
 	
 }
