@@ -56,7 +56,7 @@ class SLFXImpl implements SLFX {
 
 		if (annotations.length == 0) {
 			throw new IllegalArgumentException("Attempted to retrieve FXML for an un-annotated controller. "
-					+ "Controllers must be annotated, i.e. @FXControllerFor(\"view.fxml\")");
+					+ "Controllers must be annotated, i.e. @SLFXControllerFor(\"view.fxml\")");
 		}
 
 		String fxml = annotations[0].value();
