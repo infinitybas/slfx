@@ -12,7 +12,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 @Service
-public class SLFXImpl implements SLFX {
+class SLFXImpl implements SLFX {
 
 	private static final Logger log = org.slf4j.LoggerFactory.getLogger(SLFX.class);
 
