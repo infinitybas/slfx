@@ -63,9 +63,26 @@ public class Intent {
 
 	public void setController(Class<?> controller) {
 		this.controller = Optional.of(controller);
+		this.setFxml(getFxmlResource(controller));
 	}
 
 	public Optional<String> getFxml() {
+		return fxml;
+	}
+	
+	private String getFxmlResource(Class<?> controller) {
+		SLFXControllerFor[] annotations = controller.getDeclaredAnnotationsByType(SLFXControllerFor.class);
+
+		if (annotations.length == 0) {
+			throw new IllegalArgumentException(String.format(
+					"\n\n\tAttempted to retrieve FXML for an un-annotated controller [%s]. "
+					+ "Controllers must be annotated, i.e.\n\t\t@SLFXControllerFor(\"view.fxml\")\n\t\tpublic class %s {\n",
+					controller.getName(),
+					controller.getSimpleName()));
+		}
+
+		String fxml = annotations[0].value();
+
 		return fxml;
 	}
 	
