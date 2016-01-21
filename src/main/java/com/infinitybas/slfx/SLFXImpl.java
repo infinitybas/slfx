@@ -31,17 +31,18 @@ class SLFXImpl implements SLFX {
 			if (intent.getFxml().isPresent()) {
 				resource = intent.getFxml().get();
 			} else {
-				resource = getFxmlResource(intent.getController().get());
+				throw new IllegalStateException(
+						"Intent MUST provide an fxml resource string, either verbatim or through an annotated controller.");
 			}
 
 			if (!sceneCache.containsKey(resource)) {
 				Parent root = (Parent) loader.load(resource);
 				sceneCache.put(resource, new Scene(root));
 			} else {
-				if(log.isDebugEnabled())
+				if (log.isDebugEnabled())
 					log.debug("{} found in Scene cache, retrieving...", resource);
 			}
-				
+
 			loader.registerIntent(resource, intent);
 
 			primaryStage.setScene(sceneCache.get(resource));
@@ -49,19 +50,6 @@ class SLFXImpl implements SLFX {
 		} catch (IOException e) {
 			log.error("Exception occurred trying to execute intent", e);
 		}
-	}
-
-	private String getFxmlResource(Class<?> controller) {
-		SLFXControllerFor[] annotations = controller.getDeclaredAnnotationsByType(SLFXControllerFor.class);
-
-		if (annotations.length == 0) {
-			throw new IllegalArgumentException("Attempted to retrieve FXML for an un-annotated controller. "
-					+ "Controllers must be annotated, i.e. @SLFXControllerFor(\"view.fxml\")");
-		}
-
-		String fxml = annotations[0].value();
-
-		return fxml;
 	}
 
 	public void setPrimaryStage(Stage stage) {
