@@ -14,7 +14,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 
 /**
  * This service uses the stock {@link FXMLLoader} to load FXML resources from
@@ -81,12 +80,6 @@ public class ContextAwareFXMLLoaderService implements FXMLLoaderService {
 
 			if (controller instanceof IntentAware) {
 				controllerCache.put(resource, loader.getController());
-				if (controller instanceof SLFXController) {
-					// Inject root element. This approach means that root
-					// doesn't need to be specified with fx:id="root" to be
-					// available in controller.
-					((SLFXController) controller).setRoot((Parent) root);
-				}
 			} else {
 				log.warn("Controller {} was not an instance of {}", controller.getClass(), IntentAware.class);
 			}

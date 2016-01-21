@@ -8,18 +8,27 @@
 <?import javafx.scene.control.Button?>
 
 <AnchorPane prefHeight="240.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.infinitybas.slfx.samples.Page1Controller">
-   <children>
-      <BorderPane prefHeight="240.0" prefWidth="320.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <center>
-            <HBox alignment="CENTER" prefHeight="240.0" prefWidth="320.0" BorderPane.alignment="CENTER">
-               <children>
-               	<Button fx:id="btn" alignment="CENTER" onAction="#sayHello" text="Hello World" />
-               </children>
-            </HBox>
-         </center>
-         <top>
-            <Text fx:id="text" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" BorderPane.alignment="CENTER" />
-         </top>
-      </BorderPane>
-   </children>
+	<children>
+		<BorderPane prefHeight="240.0" prefWidth="320.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+			<center>
+				<HBox alignment="CENTER" prefHeight="240.0" prefWidth="320.0" BorderPane.alignment="CENTER">
+					<children>
+						<Button fx:id="btn" alignment="CENTER" onAction="#sayHello" text="Hello World" />
+					</children>
+				</HBox>
+			</center>
+			<top>
+				<Text fx:id="text" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" BorderPane.alignment="CENTER" />
+			</top>
+			<bottom>
+				<ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+					<items>
+						<Button fx:id="backBtn" mnemonicParsing="false" onAction="#back" text="Back" />
+						<Pane HBox.hgrow="ALWAYS" />
+						<Button fx:id="forwardBtn" alignment="TOP_LEFT" contentDisplay="TOP" mnemonicParsing="false" onAction="#forward" text="Forward" />
+					</items>
+				</ToolBar>
+			</bottom>
+		</BorderPane>
+	</children>
 </AnchorPane>
