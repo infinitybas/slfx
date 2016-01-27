@@ -1,5 +1,6 @@
 package com.infinitybas.slfx;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -44,10 +45,19 @@ public class Intent {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <T> Optional<T> getExtra(Class<?> clazz, String name) {
+	public <T> Optional<T> getExtra(Class<T> clazz, String name) {
 
 		if(extrasByClass.containsKey(clazz) && extrasByClass.get(clazz).containsKey(name)) {
 			return Optional.of((T)extrasByClass.get(clazz).get(name));
+		} else {
+			return Optional.empty();
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T> Optional<Collection<T>> getCollectionExtra(Class<T> clazz, String name) {
+		if(extrasByClass.containsKey(clazz) && extrasByClass.get(clazz).containsKey(name)) {
+			return Optional.of((Collection<T>)extrasByClass.get(clazz).get(name));
 		} else {
 			return Optional.empty();
 		}

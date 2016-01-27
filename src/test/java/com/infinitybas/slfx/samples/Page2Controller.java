@@ -2,7 +2,7 @@ package com.infinitybas.slfx.samples;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -37,7 +37,7 @@ public class Page2Controller extends SLFXController implements Initializable {
 
 		log.info("{}", intent.getExtra(ArrayList.class, "tabs").get());
 
-		Optional<List<String>> tab1name = intent.getExtra(ArrayList.class, "tabs");
+		Optional<Collection<String>> tab1name = intent.getCollectionExtra(String.class, "tabs");
 		
 		if (tab1name.isPresent()) {
 			for (String s : tab1name.get()) {

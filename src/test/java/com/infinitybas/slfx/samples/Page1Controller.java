@@ -42,8 +42,8 @@ public class Page1Controller extends SLFXController implements Initializable {
 	@Override
 	public void onShow(Intent intent) {
 
-		Optional<String> message = intent.<String> getExtra(String.class, "message");
-		Optional<String> btnText = intent.<String> getExtra(String.class, "btnText");
+		Optional<String> message = intent.getExtra(String.class, "message");
+		Optional<String> btnText = intent.getExtra(String.class, "btnText");
 
 		if (message.isPresent()) {
 			text.setText(message.get());
